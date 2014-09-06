@@ -3,6 +3,7 @@
 
 #include <string>
 #include <SDL/SDL.h>
+#include <vector>
 
 class ProtoEntity
 {
@@ -34,7 +35,7 @@ class Entity
         inline double getPosY(){return posy;}
 };
 
-std::vector<ProtoEntities> proto_entities;
+extern std::vector<ProtoEntity*> proto_entities;
 
 void loadProtoEntities();
 

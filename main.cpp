@@ -1,6 +1,7 @@
 #include <SDL/SDL.h>
 #include "map.hpp"
 #include "render.hpp"
+#include "entities.hpp"
 #include <iostream>
 #include <math.h>
 
