@@ -5,7 +5,10 @@
 #include <string>
 #include "map.hpp"
 
-#define N_TILES 1
+#define N_TILES 2
+
+extern int TILE_HEIGHT;
+extern int TILE_WIDTH;
 
 int loadTile(std::string path, int nframes, int framerate);
 

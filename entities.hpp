@@ -21,6 +21,7 @@ class ProtoEntity
         inline void setGroundHeight(double nh){ground_height = nh;}
         inline double getGroundHeight(){return ground_height;}
         inline double getGroundWidth(){return ground_width;}
+        inline SDL_Surface* getImage(){return image;}
 };
 
 class Entity
@@ -28,11 +29,14 @@ class Entity
     private:
         double posx;
         double posy;
-        ProtoEntity & proto;
+        ProtoEntity * proto;
     public:
-        Entity(ProtoEntity & proto);
+        Entity(ProtoEntity * proto);
         inline double getPosX(){return posx;}
         inline double getPosY(){return posy;}
+        inline void setPosX(double x){posx = x;}
+        inline void setPosY(double y){posy = y;}
+        void draw(SDL_Surface* screen, int offx, int offy);
 };
 
 extern std::vector<ProtoEntity*> proto_entities;

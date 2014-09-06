@@ -28,6 +28,10 @@ Map::~Map()
         delete tile[i];
     }
     delete tile;
+    for(int i(0); i < entities.size(); ++i)
+    {
+        delete entities[i];
+    }
 }
 
 void Map::setTile(short value, int x, int y, int layer)

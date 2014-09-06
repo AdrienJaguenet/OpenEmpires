@@ -25,6 +25,7 @@ int main(int argc, char** argv)
     //test
     SDL_Event e;
     double x, y;
+    map.addEntity(new Entity(proto_entities[0]));
     int keep_going = 1;
     do
     {
@@ -58,6 +59,8 @@ int main(int argc, char** argv)
                 keep_going = 0;
             }
         }
+        map.getEntity(0)->setPosX(map.getEntity(0)->getPosX() + 0.05);
+        map.getEntity(0)->setPosY(map.getEntity(0)->getPosY() + 0.05);
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         renderMap(screen, map, camx, camy);
         SDL_Flip(screen);

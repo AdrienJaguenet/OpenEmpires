@@ -1,4 +1,5 @@
 #include "entities.hpp"
+#include "render.hpp"
 
 #include <SDL/SDL_image.h>
 #include <iostream>
@@ -33,5 +34,19 @@ void unloadProtoEntities()
     {
         delete proto_entities[i];
     }
+}
+
+Entity::Entity(ProtoEntity * proto) : proto(proto), posx(0.), posy(0.)
+{
+}
+
+void Entity::draw(SDL_Surface* screen, int offx, int offy)
+{
+    SDL_Rect tmp;
+    tmp.x = offx + posx * (double)TILE_WIDTH / 2. +
+        posy * (double)TILE_WIDTH / 2.;
+    tmp.y = offy + posy * (double)TILE_HEIGHT / 2. -
+        posx * TILE_HEIGHT / 2.;
+    SDL_BlitSurface(proto->getImage(), NULL, screen, &tmp);
 }
 
