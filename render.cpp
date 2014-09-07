@@ -72,3 +72,4 @@ void screenToMap(int sx, int sy, int offx, int offy, double & mx, double & my)
     my = (sy + S2M_SLOPE * (sx - offx) - offy - TILE_HEIGHT / 2)
     / TILE_HEIGHT;
 }
+

@@ -9,6 +9,7 @@ int main(int argc, char** argv)
 {
     int screen_height = 480;
     int screen_width = 640;
+    int camsx = 0, camsy = 0;
     if(argc == 3)
     {
         screen_height = atoi(argv[2]);
@@ -18,7 +19,7 @@ int main(int argc, char** argv)
     int camx(0), camy(0);
     SDL_Init(SDL_INIT_VIDEO);
     SDL_Surface* screen = SDL_SetVideoMode(screen_width, screen_height,
-        32, SDL_HWSURFACE);
+        32, SDL_HWSURFACE | SDL_RESIZABLE | SDL_DOUBLEBUF);
     Map map(10, 10);
     loadTiles();
     loadProtoEntities();
@@ -31,36 +32,62 @@ int main(int argc, char** argv)
     {
         while(SDL_PollEvent(&e))
         {
-            if(e.type == SDL_MOUSEBUTTONDOWN)
+            switch(e.type)
             {
-                screenToMap(e.button.x, e.button.y, camx, camy, x, y);
-                map.setTile(1, floor(x), floor(y));
-            }
-            else if(e.type == SDL_KEYDOWN)
-            {
-                switch(e.key.keysym.sym)
-                {
-                    case SDLK_UP:
-                        camy += 10;
+                case SDL_MOUSEBUTTONDOWN:
+                    screenToMap(e.button.x, e.button.y, camx, camy, x, y);
+                    map.setTile(1, floor(x), floor(y));
+                    break;
+
+                case SDL_KEYDOWN:
+                    switch(e.key.keysym.sym)
+                    {
+                        case SDLK_UP:
+                            camsy = 10;
+                            break;
+                        case SDLK_DOWN:
+                            camsy = -10;
+                            break;
+                        case SDLK_RIGHT:
+                            camsx = -10;
+                            break;
+                        case SDLK_LEFT:
+                            camsx = 10;
+                            break;
+                    }
+                    break;
+
+                case SDL_KEYUP:
+                    switch(e.key.keysym.sym)
+                    {
+                        case SDLK_UP:
+                            if(camsy == 10) camsy = 0;
+                            break;
+                        case SDLK_DOWN:
+                            if(camsy == -10) camsy = 0;
+                            break;
+                        case SDLK_RIGHT:
+                            if(camsx == -10) camsx = 0;
+                            break;
+                        case SDLK_LEFT:
+                            if(camsx == 10) camsx = 0;
+                            break;
+                    }
+                    break;
+                    
+                    case SDL_QUIT:
+                        keep_going = 0;
                         break;
-                    case SDLK_DOWN:
-                        camy -= 10;
+                    
+                    case SDL_VIDEORESIZE:
+                        SDL_FreeSurface(screen);
+                        screen = SDL_SetVideoMode(e.resize.w, e.resize.h,
+                            32, SDL_HWSURFACE | SDL_RESIZABLE | SDL_DOUBLEBUF);
                         break;
-                    case SDLK_RIGHT:
-                        camx -= 10;
-                        break;
-                    case SDLK_LEFT:
-                        camx += 10;
-                        break;
-                }
-            }
-            else if(e.type == SDL_QUIT)
-            {
-                keep_going = 0;
             }
         }
-        map.getEntity(0)->setPosX(map.getEntity(0)->getPosX() + 0.05);
-        map.getEntity(0)->setPosY(map.getEntity(0)->getPosY() + 0.05);
+        camx += camsx;
+        camy += camsy;
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         renderMap(screen, map, camx, camy);
         SDL_Flip(screen);
