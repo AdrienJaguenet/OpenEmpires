@@ -4,4 +4,4 @@ OPTIONS = --std=c++11
 
 all:
 	cd src/; \
-	g++ -o oe $(FILES) $(LIBS) $(OPTIONS)
+	g++ -o ../oe $(FILES) $(LIBS) $(OPTIONS)
