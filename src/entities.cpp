@@ -25,7 +25,7 @@ ProtoEntity::~ProtoEntity()
 
 void loadProtoEntities()
 {
-    proto_entities.push_back(new ProtoEntity("bush.png"));
+    proto_entities.push_back(new ProtoEntity("data/graphic/bush.png"));
 }
 
 void unloadProtoEntities()

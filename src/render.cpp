@@ -28,11 +28,11 @@ int loadTile(std::string path, int nframes, int framerate)
 
 void loadTiles()
 {
-    loadTile("grass.png", 1, 1);
+    loadTile("data/graphic/grass.png", 1, 1);
     TILE_HEIGHT = tile_img[0]->h;
     TILE_WIDTH = tile_img[0]->w;
     S2M_SLOPE = (double) tile_img[0]->h / (double)tile_img[0]->w;
-    loadTile("water.png", 1, 1);
+    loadTile("data/graphic/water.png", 1, 1);
 }
 
 void unloadTiles()
