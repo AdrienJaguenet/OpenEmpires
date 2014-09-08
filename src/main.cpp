@@ -1,9 +1,9 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_opengl.h>
 #include <GL/gl.h>
-#include "map.hpp"
-#include "render.hpp"
-#include "entities.hpp"
+#include "../include/map.hpp"
+#include "../include/render.hpp"
+#include "../include/entities.hpp"
 #include <iostream>
 #include <math.h>
 

@@ -1,5 +1,5 @@
-#include "entities.hpp"
-#include "render.hpp"
+#include "../include/entities.hpp"
+#include "../include/render.hpp"
 
 #include <SDL/SDL_image.h>
 #include <iostream>

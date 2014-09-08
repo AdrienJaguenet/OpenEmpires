@@ -3,5 +3,5 @@ LIBS=-lSDL -lSDL_image -lGL -lm
 OPTIONS = --std=c++11
 
 all:
-	cd src/
+	cd src/; \
 	g++ -o oe $(FILES) $(LIBS) $(OPTIONS)

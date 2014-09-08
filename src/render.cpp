@@ -1,4 +1,4 @@
-#include "render.hpp"
+#include "../include/render.hpp"
 #include <vector>
 #include <SDL/SDL_image.h>
 #include <iostream>
