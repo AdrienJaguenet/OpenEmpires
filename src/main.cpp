@@ -97,14 +97,6 @@ int main(int argc, char** argv)
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         renderMap(screen, map, camx, camy);
         SDL_Flip(screen);
-        glClearColor(0., 0., 1., 1.);
-        glBegin(GL_QUADS);
-          glVertex2i(screen->w / 3, screen-> h / 3);
-          glVertex2i(screen->w / 3 + 100, screen->h / 3);
-          glVertex2i(screen->w / 3 + 100, screen->h / 3 + 100);
-          glVertex2i(screen->w / 3, screen->h / 3 + 100);
-        glEnd(); 
-        SDL_GL_SwapBuffers();
     } while(keep_going);
     //---------
     unloadTiles();
