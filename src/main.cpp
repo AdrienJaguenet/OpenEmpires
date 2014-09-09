@@ -1,9 +1,9 @@
 #include <SDL/SDL.h>
-#include <SDL/SDL_opengl.h>
-#include <GL/gl.h>
+#include <SDL/SDL_ttf.h>
 #include "../include/map.hpp"
 #include "../include/render.hpp"
 #include "../include/entities.hpp"
+#include "../include/gui.hpp"
 #include <iostream>
 #include <math.h>
 
@@ -24,16 +24,21 @@ int main(int argc, char** argv)
 
     int camx(0), camy(0);
     SDL_Init(SDL_INIT_VIDEO);
+    TTF_Init();
     SDL_Surface* screen = SDL_SetVideoMode(screen_width, screen_height,
         32, window_flags);
     Map map(10, 10);
     loadTiles();
     loadProtoEntities();
+    loadFonts();
     //test
     SDL_Event e;
     double x, y;
     map.addEntity(new Entity(proto_entities[0]));
     int keep_going = 1;
+    GuiElement main_gui(screen_width, 100);
+    GuiLabel* click_info = new 
+        GuiLabel("Click anywhere", &main_gui, FONT_SANS_STD_12);
     do
     {
         while(SDL_PollEvent(&e))
@@ -43,6 +48,7 @@ int main(int argc, char** argv)
                 case SDL_MOUSEBUTTONDOWN:
                     screenToMap(e.button.x, e.button.y, camx, camy, x, y);
                     map.setTile(1, floor(x), floor(y));
+                    click_info->setText("Clicked");
                     break;
 
                 case SDL_KEYDOWN:
@@ -89,6 +95,7 @@ int main(int argc, char** argv)
                         SDL_FreeSurface(screen);
                         screen = SDL_SetVideoMode(e.resize.w, e.resize.h,
                             32, window_flags);
+                        main_gui.resize(e.resize.w, 150);
                         break;
             }
         }
@@ -96,13 +103,17 @@ int main(int argc, char** argv)
         camy += camsy;
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         renderMap(screen, map, camx, camy);
+        main_gui.draw(screen);
         SDL_Flip(screen);
     } while(keep_going);
+    delete click_info;
     //---------
     unloadTiles();
     unloadProtoEntities();
+    unloadFonts();
     SDL_FreeSurface(screen);
     SDL_Quit();
+    TTF_Quit();
     return 0;
 }
 
