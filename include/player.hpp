@@ -9,18 +9,17 @@ class Player
 {
     private:
         std::string name;
-        std::vector<Entity*> owned_entities;
-        int id;
+        std::vector<Entity*> entity;
+        std::vector<ProtoEntity*> proto_entity;
 
     public:
-        Player(std::string name, int id);
-
+        Player(std::string name);
+       ~Player();
         inline std::string & getName(){return name;}
         inline void setName(std::string n){name = n;}
-        inline std::vector<Entity*> & getOwnedEntities(){return owned_entities;}
-        inline int getId(){return id;}
-        inline void setId(int nid){id = nid;}
-
+        inline std::vector<Entity*> & getEntities(){return entity;}
+        inline std::vector<ProtoEntity*> & getProtoEntities()
+            {return proto_entity;}
 };
 
 #endif

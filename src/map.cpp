@@ -28,9 +28,9 @@ Map::~Map()
         delete tile[i];
     }
     delete tile;
-    for(int i(0); i < entities.size(); ++i)
+    for(int i(0); i < player.size(); ++i)
     {
-        delete entities[i];
+        delete player[i];
     }
 }
 

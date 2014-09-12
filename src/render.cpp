@@ -59,10 +59,6 @@ void renderMap(SDL_Surface* screen, Map & map, int offx, int offy)
                 NULL, screen, &tmp);
         }
     }
-    for(int i(0); i < map.getEntities().size(); ++i)
-    {
-        map.getEntity(i)->draw(screen, offx, offy);
-    }
 }
 
 void screenToMap(int sx, int sy, int offx, int offy, double & mx, double & my)

@@ -37,14 +37,8 @@ class Entity
         inline double getPosY(){return posy;}
         inline void setPosX(double x){posx = x;}
         inline void setPosY(double y){posy = y;}
-        void draw(SDL_Surface* screen, int offx, int offy);
+        virtual void draw(SDL_Surface* screen, int offx, int offy);
 };
-
-extern std::vector<ProtoEntity*> proto_entities;
-
-void loadProtoEntities();
-
-void unloadProtoEntities();
 
 #endif
 
