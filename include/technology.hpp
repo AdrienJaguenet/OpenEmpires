@@ -29,9 +29,17 @@ class Technology
         inline void lock(){setState(state |= TECH_LOCKED);}
         inline void unlock(){setState(state &= ~TECH_LOCKED);}
 
+        inline void setName(std::string nname){name = nname;}
+        inline std::string & getName(){return name;}
+
         void startResearch();
-        void updateState(int ms);
+        virtual void updateState(int ms);
+        void setRequirement(Technology* tech);
+        bool hasRequirement(Technology* tech);
+        void removeRequirement(Technology* tech);
+
         virtual void researchAction();
+        virtual void consoleDescription();
 };
 
 #endif

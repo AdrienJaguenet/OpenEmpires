@@ -12,5 +12,9 @@ Player::~Player()
     {
         delete proto_entity[i];
     }
+    for(int i(0); i < tech_tree.size(); ++i)
+    {
+        delete tech_tree[i];
+    }
 }
 

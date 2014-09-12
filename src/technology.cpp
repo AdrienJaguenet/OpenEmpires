@@ -48,3 +48,41 @@ void Technology::researchAction()
     std::cout << "Hello, I am the standard technology research message\n";
 }
 
+void Technology::setRequirement(Technology* tech)
+{
+    for(int i(0); i < requirement.size(); ++i)
+    {
+        if(requirement[i] == tech)
+            return;
+    }
+    requirement.push_back(tech);
+}
+
+bool Technology::hasRequirement(Technology* tech)
+{
+    for(int i(0); i < requirement.size(); ++i)
+    {
+        if(requirement[i] == tech)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void Technology::removeRequirement(Technology* tech)
+{
+    for(int i(0); i < requirement.size(); ++i)
+    {
+        if(requirement[i] == tech)
+        {
+            requirement.erase(requirement.begin() + i);
+        }
+    }
+}
+
+void Technology::consoleDescription()
+{
+    std::cout<<"This is a basic technology description"<<std::endl;
+}
+
