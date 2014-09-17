@@ -35,6 +35,17 @@ int main(int argc, char** argv)
     SDL_Event e;
     double x, y;
     int keep_going = 1;
+    GuiElement mainGui(screen->w, screen->h);
+    GuiLabel test_1("Lorem ipsum dolor sit amet", &mainGui,
+            FONT_SANS_STD_12);
+    GuiLabel test_2("This text is longer than the previous one",
+            &mainGui, FONT_SANS_STD_12);
+    GuiLabel test_3("I hope this text won't overlap the other ones", 
+            &mainGui, FONT_SANS_STD_12);
+    GuiElement elm_1(screen->w, screen->h / 2, &mainGui);
+    GuiLabel inElement("Text in second label", &elm_1,
+            FONT_SANS_STD_12);
+    mainGui.setColor(255, 255, 0, 128);
     do
     {
         while(SDL_PollEvent(&e))
@@ -90,6 +101,7 @@ int main(int argc, char** argv)
                         SDL_FreeSurface(screen);
                         screen = SDL_SetVideoMode(e.resize.w, e.resize.h,
                             32, window_flags);
+                        mainGui.resize(screen->w, screen->h);
                         break;
             }
         }
@@ -97,6 +109,7 @@ int main(int argc, char** argv)
         camy += camsy;
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
         renderMap(screen, map, camx, camy);
+        mainGui.draw(screen);
         SDL_Flip(screen);
     } while(keep_going);
     //---------

@@ -22,6 +22,7 @@ class GuiElement
         SDL_Surface* surface;
         std::vector<GuiElement*> children;
         GuiElement* parent;
+        char color[3];
         GuiElement();//void constructor for inherited classes
     public:
         GuiElement(int width, int height, GuiElement* parent = NULL);
@@ -32,14 +33,27 @@ class GuiElement
         inline int getPosX(){return pos.x;}
         inline int getPosY(){return pos.y;}
         inline SDL_Surface* getSurface(){return surface;}
+        inline char getColorR(){return color[0];}
+        inline char getColorG(){return color[1];}
+        inline char getColorB(){return color[2];}
+        inline char getColorA(){return color[3];}
         inline void setPosX(int x){pos.x = x;}
         inline void setPosY(int y){pos.y = y;}
         inline void setPos(int x, int y){pos.x = x; pos.y = y;}
         inline void moveX(int x){pos.x += x;}
         inline void moveY(int y){pos.y += y;}
         inline void move(int x, int y){pos.x += x; pos.y += y;}
-        inline void attachElement(GuiElement* e){children.push_back(e);}
-        
+        inline void attachElement(GuiElement* e){children.push_back(e);
+            rearrange();}
+        inline void setColor(char r, char g, char b, char a = 255)
+        {   color[0] = r;
+            color[1] = g;
+            color[2] = b;
+            color[3] = a;
+            redraw();}
+
+        void rearrange();
+        virtual void redraw();
         void setWidth(int width);
         void setHeight(int height);
         void resize(int width, int height);

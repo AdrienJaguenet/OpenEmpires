@@ -28,6 +28,15 @@ parent(parent)
 {
     pos.x = 0;
     pos.y = 0;
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32,
+        0, 0, 0, 0);
+    if(surface == NULL)
+    {
+        std::cout<<"FATAL: Unable to allocate SDL surface ("<<SDL_GetError();
+        std::cout<<" )"<<std::endl;
+        std::cout<<"\tAt file "<<__FILE__<<std::endl;
+    }
+
     if(parent != NULL)
     {
         parent->attachElement(this);
@@ -40,22 +49,13 @@ parent(parent)
             width = parent->getWidth();
         }
     }
-    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32,
-        0, 0, 0, 0);
-    if(surface == NULL)
-    {
-        std::cout<<"FATAL: Unable to allocate SDL surface ("<<SDL_GetError();
-        std::cout<<" )"<<std::endl;
-        std::cout<<"\tAt file "<<__FILE__<<std::endl;
-    }
 }
 
 GuiElement::~GuiElement()
 {
-    SDL_FreeSurface(surface);
-    for(int i(0); i < children.size(); ++i)
+    if(surface != NULL)
     {
-        delete children[i];
+        SDL_FreeSurface(surface);
     }
 }
 
@@ -74,6 +74,8 @@ void GuiElement::resize(int width, int height)
     SDL_FreeSurface(surface);
     surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height,
         32, 0, 0, 0, 0);
+    SDL_SetAlpha(surface, SDL_SRCALPHA, color[3]);
+    rearrange();
 }
 
 void GuiElement::draw(SDL_Surface* screen, int offx, int offy)
@@ -98,7 +100,7 @@ void GuiElement::draw(SDL_Surface* screen, int offx, int offy)
     //draw all children
     for(int i(0); i < children.size(); ++i)
     {
-        children[i]->draw(screen);
+        children[i]->draw(surface);
     }
 }
 
@@ -112,13 +114,14 @@ font(font)
 {
     surface = NULL;
     parent = parent;
+    
+    pos.x = 0;
+    pos.y = 0;
+    setText(text);
     if(parent != NULL)
     {
         parent->attachElement(this);
     }
-    pos.x = 0;
-    pos.y = 0;
-    setText(text);
 }
 
 void GuiLabel::setText(std::string new_text)
@@ -140,5 +143,30 @@ void GuiLabel::setFont(TTF_Font* new_font)
 {
     font = new_font;
     setText(text);
+}
+
+void GuiElement::rearrange()
+{
+    //TODO: take into account margin space
+    int currentX(0), currentY(0);
+    for(int i(0); i < children.size(); ++i)
+    {
+        children[i]->setPos(currentX, currentY);
+        currentX += children[i]->getWidth();
+        if(currentX + children[i]->getWidth() > getWidth())
+        {
+            currentX = 0;
+            currentY += children[i]->getHeight();
+        }
+    }
+}
+
+void GuiElement::redraw()
+{
+    int h = surface->h, w = surface->w;
+    SDL_FreeSurface(surface);
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE,
+            w, h, 32, 0, 0, 0, 0);
+    SDL_SetAlpha(surface, SDL_SRCALPHA, color[3]);
 }
 
