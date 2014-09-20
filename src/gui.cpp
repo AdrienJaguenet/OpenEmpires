@@ -28,6 +28,9 @@ parent(parent)
 {
     pos.x = 0;
     pos.y = 0;
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32,
+        0, 0, 0, 0);
+
     if(surface == NULL)
     {
         std::cout<<"FATAL: Unable to allocate SDL surface ("<<SDL_GetError();
@@ -47,8 +50,6 @@ parent(parent)
             width = parent->getWidth();
         }
     }
-    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32,
-        0, 0, 0, 0);
 }
 
 GuiElement::~GuiElement()
