@@ -73,6 +73,7 @@ class GuiLabel : public GuiElement
         inline TTF_Font* getFont(){return font;}
         void setFont(TTF_Font* new_font);
         void setText(std::string new_text);
+        void redraw();
 };
 
 #endif

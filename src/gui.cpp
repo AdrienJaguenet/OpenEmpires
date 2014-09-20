@@ -28,8 +28,6 @@ parent(parent)
 {
     pos.x = 0;
     pos.y = 0;
-    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32,
-        0, 0, 0, 0);
     if(surface == NULL)
     {
         std::cout<<"FATAL: Unable to allocate SDL surface ("<<SDL_GetError();
@@ -49,6 +47,8 @@ parent(parent)
             width = parent->getWidth();
         }
     }
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32,
+        0, 0, 0, 0);
 }
 
 GuiElement::~GuiElement()
@@ -97,24 +97,25 @@ void GuiElement::draw(SDL_Surface* screen, int offx, int offy)
         tmp.y = pos.y + offy;
         SDL_BlitSurface(surface, NULL, screen, &tmp);
     }
+    redraw();
     //draw all children
     for(int i(0); i < children.size(); ++i)
     {
-        children[i]->draw(surface);
+        children[i]->draw();
     }
 }
 
 GuiElement::GuiElement()//yes, void constructor
 {
+    surface = NULL;
 }
 
-GuiLabel::GuiLabel(std::string text, GuiElement* parent, TTF_Font* font) : 
+GuiLabel::GuiLabel(std::string text, GuiElement* pparent, TTF_Font* font) : 
 GuiElement(),
 font(font)
 {
     surface = NULL;
-    parent = parent;
-    
+    parent = pparent;    
     pos.x = 0;
     pos.y = 0;
     setText(text);
@@ -168,5 +169,10 @@ void GuiElement::redraw()
     surface = SDL_CreateRGBSurface(SDL_HWSURFACE,
             w, h, 32, 0, 0, 0, 0);
     SDL_SetAlpha(surface, SDL_SRCALPHA, color[3]);
+}
+
+void GuiLabel::redraw()
+{
+    setText(text);
 }
 
