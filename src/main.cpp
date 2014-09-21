@@ -7,6 +7,12 @@
 #include <iostream>
 #include <math.h>
 
+void hello(GuiElement* elm, SDL_MouseButtonEvent* e, void* data)
+{
+    printf("hello, world!\n");
+    printf("clicked at %d, %d\n", e->x, e->y);
+}
+
 int main(int argc, char** argv)
 {
     int screen_height = 480;
@@ -45,7 +51,8 @@ int main(int argc, char** argv)
     GuiElement elm_1(screen->w, screen->h / 2, &mainGui);
     GuiLabel inElement("Text in second label", &elm_1,
             FONT_SANS_STD_12);
-    mainGui.setColor(255, 255, 0, 128);
+    mainGui.setColor(255, 255, 0, 40);
+    mainGui.setOnClick(hello);
     do
     {
         while(SDL_PollEvent(&e))
@@ -55,6 +62,7 @@ int main(int argc, char** argv)
                 case SDL_MOUSEBUTTONDOWN:
                     screenToMap(e.button.x, e.button.y, camx, camy, x, y);
                     map.setTile(1, floor(x), floor(y));
+                    mainGui.click(&(e.button));
                     break;
 
                 case SDL_KEYDOWN:
@@ -101,7 +109,6 @@ int main(int argc, char** argv)
                         SDL_FreeSurface(screen);
                         screen = SDL_SetVideoMode(e.resize.w, e.resize.h,
                             32, window_flags);
-                        mainGui.resize(screen->w, screen->h);
                         break;
             }
         }

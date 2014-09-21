@@ -24,8 +24,9 @@ void unloadFonts()
 }
 
 GuiElement::GuiElement(int width, int height, GuiElement* parent) :
-parent(parent)
+GuiElement()
 {
+    this->parent = parent;
     pos.x = 0;
     pos.y = 0;
     surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32,
@@ -102,12 +103,16 @@ void GuiElement::draw(SDL_Surface* screen, int offx, int offy)
     //draw all children
     for(int i(0); i < children.size(); ++i)
     {
-        children[i]->draw();
+        children[i]->draw(screen);
     }
 }
 
-GuiElement::GuiElement()//yes, void constructor
+GuiElement::GuiElement()
 {
+    onClick = NULL;
+    onRelease = NULL;
+    onClickData = NULL;
+    onReleaseData = NULL;
     surface = NULL;
 }
 
@@ -169,6 +174,8 @@ void GuiElement::redraw()
     SDL_FreeSurface(surface);
     surface = SDL_CreateRGBSurface(SDL_HWSURFACE,
             w, h, 32, 0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format,
+                color[0], color[1], color[2]));
     SDL_SetAlpha(surface, SDL_SRCALPHA, color[3]);
 }
 
@@ -176,4 +183,35 @@ void GuiLabel::redraw()
 {
     setText(text);
 }
+
+void GuiElement::click(SDL_MouseButtonEvent* event)
+{
+    if(onClick != NULL)
+    {
+        onClick(this, event, onClickData);
+    }
+    SDL_MouseButtonEvent newevent = *event;
+    newevent.x += pos.x;
+    newevent.y += pos.y;
+    for(int i(0); i < children.size(); ++i)
+    {
+            children[i]->click(&newevent);
+    }
+}
+
+void GuiElement::release(SDL_MouseButtonEvent* event)
+{
+    if(onRelease != NULL)
+    {
+        onRelease(this, event, onClickData);
+    }
+    SDL_MouseButtonEvent newevent = *event;
+    newevent.x += pos.x;
+    newevent.y += pos.y;
+    for(int i(0); i< children.size(); ++i)
+    {
+        children[i]->release(&newevent);
+    }
+}
+
 

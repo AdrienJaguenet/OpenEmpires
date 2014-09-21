@@ -15,6 +15,10 @@ void loadFonts();
 
 void unloadFonts();
 
+typedef class GuiElement GuiElement;
+
+typedef void (*EventFunc)(GuiElement*, SDL_MouseButtonEvent*, void*);
+
 class GuiElement
 {
     protected:
@@ -22,8 +26,12 @@ class GuiElement
         SDL_Surface* surface;
         std::vector<GuiElement*> children;
         GuiElement* parent;
-        char color[3];
+        char color[4];
         GuiElement();//void constructor for inherited classes
+        void* onClickData;
+        void* onReleaseData;
+        EventFunc onClick;
+        EventFunc onRelease;
     public:
         GuiElement(int width, int height, GuiElement* parent = NULL);
        ~GuiElement();
@@ -52,6 +60,25 @@ class GuiElement
             color[3] = a;
             redraw();}
 
+        /*although the following lines may appear obscure, they are pretty 
+        simple: setters and getters of function pointers*/
+
+        inline void setOnClick(EventFunc oC){onClick = oC;}
+        inline void setOnRelease(EventFunc oR){onRelease = oR;}
+        inline EventFunc getOnCLick(){return onClick;}
+        inline EventFunc getOnRelease(){return onRelease;}
+        // end of esoteric code
+
+        //moar event-related inlined functions
+        inline void* getOnClickData(){return onClickData;}
+        inline void setOnclickData(void *data){onClickData = data;}
+        inline void* getOnReleaseData(){return onReleaseData;}
+        inline void setOnReleaseData(void *data){onReleaseData = data;}
+
+        inline bool pointInside(int rx, int ry)
+        {return rx >= pos.x && rx < pos.x + surface->w
+             && ry >= pos.y && ry < pos.y + surface->h;}
+
         void rearrange();
         virtual void redraw();
         void setWidth(int width);
@@ -59,6 +86,8 @@ class GuiElement
         void resize(int width, int height);
         void draw(SDL_Surface* screen = NULL,
             int offx = 0, int offy = 0);
+        void click(SDL_MouseButtonEvent* event);
+        void release(SDL_MouseButtonEvent* event);
 };
 
 class GuiLabel : public GuiElement
