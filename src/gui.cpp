@@ -82,6 +82,12 @@ void GuiElement::resize(int width, int height)
 
 void GuiElement::draw(SDL_Surface* screen, int offx, int offy)
 {
+    redraw();
+    //draw all children
+    for(int i(0); i < children.size(); ++i)
+    {
+        children[i]->draw();
+    }
     if(screen == NULL)
     {
         if(parent == NULL)
@@ -98,12 +104,6 @@ void GuiElement::draw(SDL_Surface* screen, int offx, int offy)
         tmp.x = pos.x + offx;
         tmp.y = pos.y + offy;
         SDL_BlitSurface(surface, NULL, screen, &tmp);
-    }
-    redraw();
-    //draw all children
-    for(int i(0); i < children.size(); ++i)
-    {
-        children[i]->draw(screen);
     }
 }
 

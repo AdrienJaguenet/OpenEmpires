@@ -7,12 +7,6 @@
 #include <iostream>
 #include <math.h>
 
-void hello(GuiElement* elm, SDL_MouseButtonEvent* e, void* data)
-{
-    printf("hello, world!\n");
-    printf("clicked at %d, %d\n", e->x, e->y);
-}
-
 int main(int argc, char** argv)
 {
     int screen_height = 480;
@@ -41,19 +35,12 @@ int main(int argc, char** argv)
     SDL_Event e;
     double x, y;
     int keep_going = 1;
-    GuiElement mainGui(screen->w, screen->h);
-    GuiLabel test_1("Lorem ipsum dolor sit amet", &mainGui,
-            FONT_SANS_STD_12);
-    GuiLabel test_2("This text is longer than the previous one",
-            &mainGui, FONT_SANS_STD_12);
-    GuiLabel test_3("I hope this text won't overlap the other ones", 
-            &mainGui, FONT_SANS_STD_12);
-    GuiElement elm_1(screen->w, screen->h / 2, &mainGui);
-    GuiLabel inElement("Text in second label", &elm_1,
-            FONT_SANS_STD_12);
-    mainGui.setColor(255, 255, 0, 40);
-    mainGui.setOnClick(hello);
-    test_2.setOnClick(hello);
+    GuiElement mainGui(screen->w, screen->h / 2);
+    GuiElement subGui(200, 100, &mainGui);
+    GuiLabel text("TEST 1 2 3", &mainGui, FONT_SANS_STD_12);
+    GuiLabel subText("SECOND TEXT", &subGui, FONT_SANS_STD_12);
+    mainGui.setColor(0, 0, 0, 255);
+    subGui.setColor(128, 30, 30, 255);
     do
     {
         while(SDL_PollEvent(&e))
