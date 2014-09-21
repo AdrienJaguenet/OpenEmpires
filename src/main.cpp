@@ -53,6 +53,7 @@ int main(int argc, char** argv)
             FONT_SANS_STD_12);
     mainGui.setColor(255, 255, 0, 40);
     mainGui.setOnClick(hello);
+    test_2.setOnClick(hello);
     do
     {
         while(SDL_PollEvent(&e))

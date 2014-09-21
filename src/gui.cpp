@@ -186,7 +186,7 @@ void GuiLabel::redraw()
 
 void GuiElement::click(SDL_MouseButtonEvent* event)
 {
-    if(onClick != NULL)
+    if(onClick != NULL && pointInside(event->x, event->y))
     {
         onClick(this, event, onClickData);
     }
@@ -201,7 +201,7 @@ void GuiElement::click(SDL_MouseButtonEvent* event)
 
 void GuiElement::release(SDL_MouseButtonEvent* event)
 {
-    if(onRelease != NULL)
+    if(onRelease != NULL && pointInside(event->x, event->y))
     {
         onRelease(this, event, onClickData);
     }
