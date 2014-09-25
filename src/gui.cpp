@@ -191,11 +191,11 @@ void GuiElement::click(SDL_MouseButtonEvent* event)
         onClick(this, event, onClickData);
     }
     SDL_MouseButtonEvent newevent = *event;
-    newevent.x += pos.x;
-    newevent.y += pos.y;
+    newevent.x -= pos.x;
+    newevent.y -= pos.y;
     for(int i(0); i < children.size(); ++i)
     {
-            children[i]->click(&newevent);
+        children[i]->click(&newevent);
     }
 }
 
@@ -206,8 +206,8 @@ void GuiElement::release(SDL_MouseButtonEvent* event)
         onRelease(this, event, onClickData);
     }
     SDL_MouseButtonEvent newevent = *event;
-    newevent.x += pos.x;
-    newevent.y += pos.y;
+    newevent.x -= pos.x;
+    newevent.y -= pos.y;
     for(int i(0); i< children.size(); ++i)
     {
         children[i]->release(&newevent);

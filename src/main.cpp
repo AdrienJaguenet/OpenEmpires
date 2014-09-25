@@ -7,6 +7,15 @@
 #include <iostream>
 #include <math.h>
 
+void placeRandomBush(GuiElement* elm, SDL_MouseButtonEvent* event, void* data)
+{
+    static double x(0.), y(0.);
+    Map* map = (Map*) data;
+    map->spawn_entity(0, "bush", x, y);
+    x += 0.5;
+    y += 0.5;
+}
+
 int main(int argc, char** argv)
 {
     int screen_height = 480;
@@ -36,11 +45,11 @@ int main(int argc, char** argv)
     double x, y;
     int keep_going = 1;
     GuiElement mainGui(screen->w, screen->h / 2);
-    GuiElement subGui(200, 100, &mainGui);
-    GuiLabel text("TEST 1 2 3", &mainGui, FONT_SANS_STD_12);
-    GuiLabel subText("SECOND TEXT", &subGui, FONT_SANS_STD_12);
-    mainGui.setColor(0, 0, 0, 255);
-    subGui.setColor(128, 30, 30, 255);
+    mainGui.setPosY(screen->h / 2);
+    GuiLabel text("ADD RANDOM BUSH", &mainGui, FONT_SANS_STD_12);
+    mainGui.setColor(125, 125, 125, 255);
+    text.setOnClick(placeRandomBush);
+    text.setOnClickData(&map);
     do
     {
         while(SDL_PollEvent(&e))

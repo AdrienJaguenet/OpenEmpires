@@ -1,20 +1,40 @@
 #include "../include/player.hpp"
+#include <iostream>
 
 Player::Player(std::string name) : name(name)
 {
     //create proto entities
-    proto_entity.push_back(new ProtoEntity("data/graphic/bush.png"));
+    proto_entity["bush"] = new ProtoEntity("data/graphic/bush.png",
+                "bush");
 }
 
 Player::~Player()
 {
-    for(int i(0); i < proto_entity.size(); ++i)
+    for(auto &ent : proto_entity)
     {
-        delete proto_entity[i];
+        delete ent.second;
     }
-    for(int i(0); i < tech_tree.size(); ++i)
+    for(auto &tech : tech_tree)
     {
-        delete tech_tree[i];
+        delete tech.second;
+    }
+    for(auto &ent : entity)
+    {
+        delete ent;
     }
 }
+
+void Player::spawn_entity(std::string proto, double posx, double posy)
+{
+    if(proto_entity.find(proto) == proto_entity.end())
+    {
+        std::cout<<"WARNING: attempted to spawn an entity with non valid";
+        std::cout<<" id \""<<proto<<"\""<<std::endl;
+        return;
+    }
+    Entity* ent = new Entity(proto_entity[proto]);
+    ent->setPos(posx, posy);
+    entity.push_back(ent);
+}
+
 

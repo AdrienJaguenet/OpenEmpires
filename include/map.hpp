@@ -26,6 +26,7 @@ class Map
         void setTile(short value, int x, int y, int layer = 0);
         inline std::vector<Player*> & getPlayers(){return player;}
         inline void addPlayer(Player* p){player.push_back(p);}
+        void spawn_entity(int playerid, std::string proto, double x, double y);
 };
 
 #endif

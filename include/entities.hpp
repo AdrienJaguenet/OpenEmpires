@@ -13,9 +13,11 @@ class ProtoEntity
         SDL_Surface* image;
         int nframes;
         int framerate;
+        std::string id;
     //other misc
     public:
-        ProtoEntity(std::string img_path, int nframes = 1, int framerate = 1);
+        ProtoEntity(std::string img_path, std::string id,
+                int nframes = 1, int framerate = 1);
        ~ProtoEntity();
         inline void setGroundWidth(double nw){ground_width = nw;}
         inline void setGroundHeight(double nh){ground_height = nh;}
@@ -37,6 +39,7 @@ class Entity
         inline double getPosY(){return posy;}
         inline void setPosX(double x){posx = x;}
         inline void setPosY(double y){posy = y;}
+        inline void setPos(double x, double y){posx = x, posy = posy;}
         virtual void draw(SDL_Surface* screen, int offx, int offy);
 };
 

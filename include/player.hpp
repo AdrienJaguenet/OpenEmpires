@@ -3,27 +3,31 @@
 
 #include <vector>
 #include <string>
+#include <unordered_map>
 #include "entities.hpp"
 #include "technology.hpp"
+
+using namespace std;
 
 class Player
 {
     private:
-        std::string name;
-        std::vector<Entity*> entity;
-        std::vector<ProtoEntity*> proto_entity;
-        std::vector<Technology*> tech_tree;
+        string name;
+        vector<Entity*> entity;
+        unordered_map<string, ProtoEntity*> proto_entity;
+        unordered_map<string, Technology*> tech_tree;
 
     public:
-        Player(std::string name);
+        Player(string name);
        ~Player();
-        inline std::string & getName(){return name;}
-        inline void setName(std::string n){name = n;}
-        inline std::vector<Entity*> & getEntities(){return entity;}
-        inline std::vector<ProtoEntity*> & getProtoEntities()
+        inline string & getName(){return name;}
+        inline void setName(string n){name = n;}
+        inline vector<Entity*> & getEntities(){return entity;}
+        inline unordered_map<string, ProtoEntity*> & getProtoEntities()
             {return proto_entity;}
-        inline std::vector<Technology*> & getTechTree()
+        inline unordered_map<string, Technology*> & getTechTree()
             {return tech_tree;}
+        void spawn_entity(string proto, double posx, double posy);
 };
 
 #endif

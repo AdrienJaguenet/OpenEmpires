@@ -71,7 +71,7 @@ class GuiElement
 
         //moar event-related inlined functions
         inline void* getOnClickData(){return onClickData;}
-        inline void setOnclickData(void *data){onClickData = data;}
+        inline void setOnClickData(void *data){onClickData = data;}
         inline void* getOnReleaseData(){return onReleaseData;}
         inline void setOnReleaseData(void *data){onReleaseData = data;}
 

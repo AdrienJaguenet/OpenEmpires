@@ -42,3 +42,12 @@ void Map::setTile(short value, int x, int y, int layer)
     }
 }
 
+void Map::spawn_entity(int playerid, std::string proto, double posx, double posy)
+{
+    if(playerid > player.size() - 1)
+    {
+        return;
+    }
+    player[playerid]->spawn_entity(proto, posx, posy);
+}
+

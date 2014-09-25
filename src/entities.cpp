@@ -4,7 +4,8 @@
 #include <SDL/SDL_image.h>
 #include <iostream>
 
-ProtoEntity::ProtoEntity(std::string path, int nframes, int framerate)
+ProtoEntity::ProtoEntity(std::string path, std::string id,
+        int nframes, int framerate)
 {
     image = IMG_Load(path.c_str());
     if(image == NULL)
