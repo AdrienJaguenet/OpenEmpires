@@ -26,7 +26,7 @@ class GuiElement
         SDL_Surface* surface;
         std::vector<GuiElement*> children;
         GuiElement* parent;
-        char color[4];
+        Uint8 color[4];
         GuiElement();//void constructor for inherited classes
         void* onClickData;
         void* onReleaseData;
@@ -86,11 +86,11 @@ class GuiElement
         void resize(int width, int height);
         void draw(SDL_Surface* screen = NULL,
             int offx = 0, int offy = 0);
-        void click(SDL_MouseButtonEvent* event);
-        void release(SDL_MouseButtonEvent* event);
+        virtual void click(SDL_MouseButtonEvent* event);
+        virtual void release(SDL_MouseButtonEvent* event);
 };
 
-class GuiLabel : public GuiElement
+class GuiLabel : public virtual GuiElement
 {
     protected:
         std::string text;
@@ -102,6 +102,26 @@ class GuiLabel : public GuiElement
         inline TTF_Font* getFont(){return font;}
         void setFont(TTF_Font* new_font);
         void setText(std::string new_text);
+        void redraw();
+};
+
+class GuiButton : public virtual GuiElement
+{
+    protected:
+        SDL_Surface* pressed_surface;
+        GuiButton(GuiElement* parent);
+        bool pressed;
+    public:
+       ~GuiButton();
+        void click(SDL_MouseButtonEvent* e);
+        void release(SDL_MouseButtonEvent* e);
+};
+
+class GuiLabelButton : public GuiLabel, public GuiButton
+{
+    public:
+        GuiLabelButton(std::string text, GuiElement* parent, TTF_Font* font);
+       ~GuiLabelButton();
         void redraw();
 };
 

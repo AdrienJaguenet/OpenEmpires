@@ -114,6 +114,10 @@ GuiElement::GuiElement()
     onClickData = NULL;
     onReleaseData = NULL;
     surface = NULL;
+    color[0] = 128;
+    color[1] = 128;
+    color[2] = 128;
+    color[3] = 255;
 }
 
 GuiLabel::GuiLabel(std::string text, GuiElement* pparent, TTF_Font* font) : 
@@ -138,7 +142,17 @@ void GuiLabel::setText(std::string new_text)
     {
         SDL_FreeSurface(surface);
     }
-    surface = TTF_RenderText_Blended(font, text.c_str(), COLOR_WHITE);
+    if(color[3] == 0)
+    {
+        surface = TTF_RenderText_Blended(font, text.c_str(), COLOR_WHITE);
+    }
+    else
+    {
+        SDL_Color bgColor = {color[0], color[1], color[2], color[3]};
+        surface = TTF_RenderText_Shaded(font, text.c_str(), COLOR_WHITE, 
+                bgColor);
+        SDL_SetAlpha(surface, SDL_SRCALPHA, color[3]);
+    }
     if(surface == NULL)
     {
         std::cout<<"FATAL: Couldn't render text"<<std::endl;
@@ -195,7 +209,7 @@ void GuiElement::click(SDL_MouseButtonEvent* event)
     newevent.y -= pos.y;
     for(int i(0); i < children.size(); ++i)
     {
-        children[i]->click(&newevent);
+            children[i]->click(&newevent);
     }
 }
 
@@ -214,4 +228,64 @@ void GuiElement::release(SDL_MouseButtonEvent* event)
     }
 }
 
+GuiButton::GuiButton(GuiElement* pparent):
+    pressed_surface(NULL),
+    pressed(false)
+{
+}
+
+GuiButton::~GuiButton()
+{
+    if(pressed_surface != NULL)
+    {
+        SDL_FreeSurface(pressed_surface);
+    }
+}
+
+void GuiButton::click(SDL_MouseButtonEvent* e)
+{
+    if(pointInside(e->x, e->y))
+    {
+        pressed = true;
+    }
+    GuiElement::click(e);
+}
+
+void GuiButton::release(SDL_MouseButtonEvent* e)
+{
+    if(pointInside(e->x, e->y))
+    {
+        pressed = false;
+    }
+    GuiElement::release(e);
+}
+
+GuiLabelButton::GuiLabelButton(std::string text, GuiElement* parent,
+        TTF_Font* font) : 
+    GuiButton(parent),
+    GuiLabel(text, parent, font)
+{
+}
+
+GuiLabelButton::~GuiLabelButton()
+{
+    if(pressed_surface != NULL)
+    {
+        SDL_FreeSurface(pressed_surface);
+    }
+}
+
+void GuiLabelButton::redraw()
+{
+    if(not pressed)
+    {
+        color[0] = 128;
+        setText(text);
+    }
+    else
+    {
+        color[0] = 255;
+        setText(text);
+    }
+}
 

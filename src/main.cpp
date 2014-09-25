@@ -46,10 +46,10 @@ int main(int argc, char** argv)
     int keep_going = 1;
     GuiElement mainGui(screen->w, screen->h / 2);
     mainGui.setPosY(screen->h / 2);
-    GuiLabel text("ADD RANDOM BUSH", &mainGui, FONT_SANS_STD_12);
+    GuiLabelButton button("ADD RANDOM BUSH", &mainGui, FONT_SANS_STD_12);
     mainGui.setColor(125, 125, 125, 255);
-    text.setOnClick(placeRandomBush);
-    text.setOnClickData(&map);
+    button.setOnClick(placeRandomBush);
+    button.setOnClickData(&map);
     do
     {
         while(SDL_PollEvent(&e))
@@ -60,6 +60,10 @@ int main(int argc, char** argv)
                     screenToMap(e.button.x, e.button.y, camx, camy, x, y);
                     map.setTile(1, floor(x), floor(y));
                     mainGui.click(&(e.button));
+                    break;
+
+                case SDL_MOUSEBUTTONUP:
+                    mainGui.release(&(e.button));
                     break;
 
                 case SDL_KEYDOWN:
