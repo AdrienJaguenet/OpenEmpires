@@ -5,7 +5,9 @@ Player::Player(std::string name) : name(name)
 {
     //create proto entities
     proto_entity["bush"] = new ProtoEntity("data/graphic/bush.png",
-                "bush");
+            "bush");
+    proto_entity["peasant"] = new ProtoEntity("data/graphic/peasant.png",
+            "peasant");
 }
 
 Player::~Player()

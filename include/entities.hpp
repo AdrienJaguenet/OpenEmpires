@@ -39,7 +39,7 @@ class Entity
         inline double getPosY(){return posy;}
         inline void setPosX(double x){posx = x;}
         inline void setPosY(double y){posy = y;}
-        inline void setPos(double x, double y){posx = x, posy = posy;}
+        inline void setPos(double x, double y){posx = x, posy = y;}
         virtual void draw(SDL_Surface* screen, int offx, int offy);
 };
 

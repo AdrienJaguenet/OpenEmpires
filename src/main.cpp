@@ -16,6 +16,16 @@ void placeRandomBush(GuiElement* elm, SDL_MouseButtonEvent* event, void* data)
     y += 0.5;
 }
 
+void placeRandomPeasant(GuiElement* elm, SDL_MouseButtonEvent* event,
+        void* data)
+{
+    static double x(10.), y(10.);
+    Map* map = (Map*) data;
+    map->spawn_entity(0, "peasant", x, y);
+    x -= 0.5;
+    y -= 0.5;
+}
+
 int main(int argc, char** argv)
 {
     int screen_height = 480;
@@ -46,10 +56,13 @@ int main(int argc, char** argv)
     int keep_going = 1;
     GuiElement mainGui(screen->w, screen->h / 2);
     mainGui.setPosY(screen->h / 2);
-    GuiLabelButton button("ADD RANDOM BUSH", &mainGui, FONT_SANS_STD_12);
+    GuiLabelButton bush("Bush", &mainGui, FONT_SANS_STD_12);
     mainGui.setColor(125, 125, 125, 255);
-    button.setOnClick(placeRandomBush);
-    button.setOnClickData(&map);
+    bush.setOnClick(placeRandomBush);
+    bush.setOnClickData(&map);
+    GuiLabelButton peasant("Peasant", &mainGui, FONT_SANS_STD_12);
+    peasant.setOnClick(placeRandomPeasant);
+    peasant.setOnClickData(&map);
     do
     {
         while(SDL_PollEvent(&e))
