@@ -36,3 +36,10 @@ void Entity::draw(SDL_Surface* screen, int offx, int offy)
     SDL_BlitSurface(proto->getImage(), NULL, screen, &tmp);
 }
 
+bool cmpEntPos(Entity* a, Entity* b)
+{
+    double ia = -a->posy + a->posx;
+    double ib = -b->posy + b->posx;
+    return ia > ib;
+}
+

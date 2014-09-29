@@ -9,21 +9,21 @@
 
 void placeRandomBush(GuiElement* elm, SDL_MouseButtonEvent* event, void* data)
 {
-    static double x(0.), y(0.);
+    double x, y;
     Map* map = (Map*) data;
+    x = (double)(rand() % 1000) / 1000. * (double)map->getWidth();
+    y = (double)(rand() % 1000) / 1000. * (double)map->getHeight();
     map->spawn_entity(0, "bush", x, y);
-    x += 0.5;
-    y += 0.5;
 }
 
 void placeRandomPeasant(GuiElement* elm, SDL_MouseButtonEvent* event,
         void* data)
 {
-    static double x(10.), y(10.);
+    double x, y;
     Map* map = (Map*) data;
+    x = (double)(rand() % 1000) / 1000. * (double)map->getWidth();
+    y = (double)(rand() % 1000) / 1000. * (double)map->getHeight();
     map->spawn_entity(0, "peasant", x, y);
-    x -= 0.5;
-    y -= 0.5;
 }
 
 int main(int argc, char** argv)
@@ -46,7 +46,7 @@ int main(int argc, char** argv)
     TTF_Init();
     SDL_Surface* screen = SDL_SetVideoMode(screen_width, screen_height,
         32, window_flags);
-    Map map(10, 10);
+    Map map(50, 50);
     map.addPlayer(new Player("Gaia"));
     loadTiles();
     loadFonts();
@@ -123,6 +123,8 @@ int main(int argc, char** argv)
                         SDL_FreeSurface(screen);
                         screen = SDL_SetVideoMode(e.resize.w, e.resize.h,
                             32, window_flags);
+                        mainGui.setWidth(screen->w);
+                        mainGui.setPosY(screen->h - mainGui.getHeight());
                         break;
             }
         }

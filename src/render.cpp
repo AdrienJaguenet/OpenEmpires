@@ -2,6 +2,7 @@
 #include <vector>
 #include <SDL/SDL_image.h>
 #include <iostream>
+#include <map>
 
 std::vector<SDL_Surface*> tile_img;
 
@@ -59,12 +60,18 @@ void renderMap(SDL_Surface* screen, Map & map, int offx, int offy)
                 NULL, screen, &tmp);
         }
     }
+    std::vector<Entity*> drawn_entities;
     for(Player* pl : map.getPlayers())
     {
         for(Entity* ent : pl->getEntities())
         {
-            ent->draw(screen, offx, offy);
+            drawn_entities.push_back(ent);
         }
+    }
+    std::sort(drawn_entities.begin(), drawn_entities.end(), cmpEntPos);
+    for(auto& ent : drawn_entities)
+    {
+        ent->draw(screen, offx, offy);
     }
 }
 

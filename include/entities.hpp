@@ -4,6 +4,7 @@
 #include <string>
 #include <SDL/SDL.h>
 #include <vector>
+#include <algorithm>
 
 class ProtoEntity
 {
@@ -40,8 +41,13 @@ class Entity
         inline void setPosX(double x){posx = x;}
         inline void setPosY(double y){posy = y;}
         inline void setPos(double x, double y){posx = x, posy = y;}
+        inline ProtoEntity* getProto(){return proto;}
         virtual void draw(SDL_Surface* screen, int offx, int offy);
+
+        friend bool cmpEntPos(Entity* a, Entity* b);
 };
+
+bool cmpEntPos(Entity* a, Entity* b);
 
 #endif
 
