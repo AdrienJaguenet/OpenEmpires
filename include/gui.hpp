@@ -5,6 +5,8 @@
 #include <string>
 #include <SDL/SDL.h>
 #include <SDL/SDL_ttf.h>
+#include "map.hpp"
+#include "render.hpp"
 
 extern TTF_Font* FONT_SANS_STD_12;
 
@@ -146,6 +148,43 @@ class GuiProgressBar : public GuiElement
         inline double getFillAmount(){return fillAmount;}
 
         void debugColors();
+};
+
+class GuiMap : public GuiElement
+{
+    protected:
+        Map* map;
+        Player* player;
+        int camx, camy;
+        int camsx, camsy;
+    public:
+        GuiMap(int width, int height, GuiElement* parent, Map*m, Player* p);
+
+        inline Map* getMap(){return map;}
+        inline Player* getPlayer(){return player;}
+        inline void setMap(Map* m){map = m;}
+        inline void setPlayer(Player* p){player = p;}
+
+        inline int getCamX(){return camx;}
+        inline int getCamY(){return camy;}
+        inline int getCamSX(){return camsx;}
+        inline int getCamSY(){return camsy;}
+        inline void setCamX(int x){camx = x;}
+        inline void setCamY(int y){camy = y;}
+        inline void setCam(int x, int y){camx = x; camy = y;}
+        inline void setCamSX(int x){camsx = x;}
+        inline void setCamSY(int y){camsy = y;}
+        inline void setCamS(int x, int y){camsx = x; camsy = y;}
+        inline void moveCamX(int x){camx += x;}
+        inline void moveCamY(int y){camy += y;}
+        inline void moveCam(int x, int y){camx += x; camy += y;}
+
+        inline void update(int ms){camx += camsx; camy += camsy;}
+
+        void redraw();
+
+        void click(SDL_MouseButtonEvent* e);
+        void release(SDL_MouseButtonEvent* e);
 };
 
 #endif

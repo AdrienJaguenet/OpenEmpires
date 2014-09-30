@@ -83,3 +83,15 @@ void screenToMap(int sx, int sy, int offx, int offy, double & mx, double & my)
     / TILE_HEIGHT;
 }
 
+void Entity::draw(SDL_Surface* screen, int offx, int offy)
+{
+    SDL_Rect tmp;
+    tmp.x = offx + posx * (double)TILE_WIDTH / 2. +
+        posy * (double)TILE_WIDTH / 2.;
+    tmp.y = offy + posy * (double)TILE_HEIGHT / 2. -
+        posx * TILE_HEIGHT / 2.;
+    tmp.y -= proto->getImage()->h - proto->getImage()->w * S2M_SLOPE;
+    SDL_BlitSurface(proto->getImage(), NULL, screen, &tmp);
+}
+
+

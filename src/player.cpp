@@ -8,6 +8,8 @@ Player::Player(std::string name) : name(name)
             "bush");
     proto_entity["peasant"] = new ProtoEntity("data/graphic/peasant.png",
             "peasant");
+    proto_entity["tower"] = new ProtoEntity("data/graphic/tower.png",
+            "tower");
 }
 
 Player::~Player()

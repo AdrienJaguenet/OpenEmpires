@@ -326,3 +326,27 @@ void GuiProgressBar::debugColors()
     printf("=================\n\n");
 }
 
+GuiMap::GuiMap(int width, int height, GuiElement* parent, Map* m, Player* p) : 
+    GuiElement(width, height, parent),
+    map(m),
+    player(p),
+    camx(0), camy(0), camsx(0), camsy(0)
+{
+}
+
+void GuiMap::redraw()
+{
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format, 0, 0, 0));
+    renderMap(surface, *map, camx, camy);
+}
+
+void GuiMap::click(SDL_MouseButtonEvent* e)
+{
+    GuiElement::click(e);
+}
+
+void GuiMap::release(SDL_MouseButtonEvent* e)
+{
+    GuiElement::release(e);
+}
+
