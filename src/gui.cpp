@@ -84,9 +84,9 @@ void GuiElement::draw(SDL_Surface* screen, int offx, int offy)
 {
     redraw();
     //draw all children
-    for(int i(0); i < children.size(); ++i)
+    for(GuiElement* child :children)
     {
-        children[i]->draw();
+        child->draw();
     }
     if(screen == NULL)
     {
@@ -287,5 +287,42 @@ void GuiLabelButton::redraw()
         color[0] = 255;
         setText(text);
     }
+}
+
+GuiProgressBar::GuiProgressBar(int width, int height,
+        GuiElement* parent) : 
+    GuiElement(width, height, parent),
+    fillAmount(0.)
+{
+    fillColor[0] = 255;
+    fillColor[1] = 255;
+    fillColor[2] = 255;
+    fillColor[3] = 255;
+    redraw();
+}
+
+void GuiProgressBar::redraw()
+{
+    int height(surface->h), width(surface->w);
+    if(surface != NULL)
+    {
+        SDL_FreeSurface(surface);
+    }
+    surface = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, 32, 
+            0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, SDL_MapRGB(surface->format,
+                color[0], color[1], color[2]));
+    double fillpx = fillAmount * (double)surface->w;
+    SDL_Rect fr;
+    fr.x = 0; fr.y = 0; fr.h = surface->h; fr.w = (int)fillpx;
+    SDL_FillRect(surface, &fr, SDL_MapRGB(surface->format,
+                fillColor[0], fillColor[1], fillColor[2]));
+}
+
+void GuiProgressBar::debugColors()
+{
+    printf("%d\n%d\n%d\n", color[0], color[1], color[2]);
+    printf("%d\n%d\n%d\n", fillColor[0], fillColor[1], fillColor[3]);
+    printf("=================\n\n");
 }
 
