@@ -54,11 +54,7 @@ class GuiElement
         inline void attachElement(GuiElement* e){children.push_back(e);
             rearrange();}
         inline void setColor(char r, char g, char b, char a = 255)
-        {   color[0] = r;
-            color[1] = g;
-            color[2] = b;
-            color[3] = a;
-            redraw();}
+        {color[0] = r; color[1] = g; color[2] = b; color[3] = a;}
 
         /*although the following lines may appear obscure, they are pretty 
         simple: setters and getters of function pointers*/
@@ -123,6 +119,33 @@ class GuiLabelButton : public GuiLabel, public GuiButton
         GuiLabelButton(std::string text, GuiElement* parent, TTF_Font* font);
        ~GuiLabelButton();
         void redraw();
+};
+
+class GuiProgressBar : public GuiElement
+{
+    protected:
+        double fillAmount;//between 1 and 0
+        char fillColor[4];
+    public:
+        GuiProgressBar(int width, int height, GuiElement* parent);
+        virtual void redraw();
+        inline void setFillColorR(char r){fillColor[0] = r;}
+        inline void setFillColorG(char g){fillColor[1] = g;}
+        inline void setFillColorB(char b){fillColor[2] = b;}
+        inline void setFillColorA(char a){fillColor[3] = a;}
+        inline void setFillColor(char r, char g, char b, char a=255)
+        {fillColor[0] = r; fillColor[1] = g; fillColor[2] = b;
+            fillColor[3] = a;}
+
+        inline char getFillColorR(){return fillColor[0];}
+        inline char getFillColorG(){return fillColor[1];}
+        inline char getFillColorB(){return fillColor[2];}
+        inline char getFillColorA(){return fillColor[3];}
+
+        inline void setFillAmount(double fa){fillAmount = fa;}
+        inline double getFillAmount(){return fillAmount;}
+
+        void debugColors();
 };
 
 #endif

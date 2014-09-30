@@ -46,7 +46,7 @@ int main(int argc, char** argv)
     TTF_Init();
     SDL_Surface* screen = SDL_SetVideoMode(screen_width, screen_height,
         32, window_flags);
-    Map map(50, 50);
+    Map map(5, 5);
     map.addPlayer(new Player("Gaia"));
     loadTiles();
     loadFonts();
