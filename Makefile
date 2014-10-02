@@ -1,4 +1,5 @@
-FILES=main.cpp render.cpp map.cpp entities.cpp player.cpp gui.cpp technology.cpp
+FILES=main.cpp render.cpp map.cpp entities.cpp player.cpp gui.cpp \
+      technology.cpp util.cpp
 LIBS=-lSDL -lSDL_image -lSDL_ttf -lm
 OPTIONS = --std=c++11 -g
 

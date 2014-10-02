@@ -1,4 +1,5 @@
 #include "../include/player.hpp"
+#include "../include/util.hpp"
 #include <iostream>
 
 Player::Player(std::string name) : name(name)

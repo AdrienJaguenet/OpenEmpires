@@ -1,5 +1,6 @@
 #include "../include/entities.hpp"
 #include "../include/render.hpp"
+#include "../include/util.hpp"
 
 #include <SDL/SDL_image.h>
 #include <iostream>
@@ -12,6 +13,7 @@ ProtoEntity::ProtoEntity(std::string path, std::string id,
     {
         std::cout<<"Error: couldn't load \""<<path<<"\"."<<std::endl;
     }
+    monochromizeImage(image, SDL_MapRGB(image->format, 255, 0, 0));
 }
 
 ProtoEntity::~ProtoEntity()
